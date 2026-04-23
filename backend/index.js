@@ -266,7 +266,7 @@ app.post("/run", async (req, res) => {
       });
     }
 
-    const exePath = path.join(__dirname, "..", "cpp-engine", "main.exe");
+    const exePath = path.join(__dirname, "..", "cpp-engine", "main");
 
     const negative = hasNegativeEdge(dataString);
 
