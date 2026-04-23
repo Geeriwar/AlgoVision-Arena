@@ -1,0 +1,92 @@
+// kruskal.cpp
+#include "kruskal.h"
+#include "dsu.h"
+#include <algorithm>
+
+using namespace std;
+
+//////////////////////////////////////////////////////////////
+// Kruskal Algorithm
+// n     = number of nodes
+// edges = {u,v,w}
+//
+// returns steps:
+// {u,v,w,totalCostSoFar}
+//////////////////////////////////////////////////////////////
+
+vector<vector<int>> kruskal(
+    int n,
+    vector<vector<int>>& edges
+) {
+    //////////////////////////////////////////////////
+    // Sort edges by weight
+    //////////////////////////////////////////////////
+    sort(
+        edges.begin(),
+        edges.end(),
+        [](const vector<int>& a,
+           const vector<int>& b) {
+            return a[2] < b[2];
+        }
+    );
+
+    //////////////////////////////////////////////////
+    // DSU
+    //////////////////////////////////////////////////
+    DSU dsu(n);
+
+    //////////////////////////////////////////////////
+    // Result steps
+    //////////////////////////////////////////////////
+    vector<vector<int>> steps;
+
+    int cost = 0;
+    int edgesUsed = 0;
+
+    //////////////////////////////////////////////////
+    // Process edges
+    //////////////////////////////////////////////////
+    for (auto &e : edges) {
+
+        int u = e[0];
+        int v = e[1];
+        int w = e[2];
+
+        //////////////////////////////////////////////////
+        // If different components
+        //////////////////////////////////////////////////
+        if (dsu.find(u) != dsu.find(v)) {
+
+            dsu.unite(u, v);
+
+            cost += w;
+            edgesUsed++;
+
+            //////////////////////////////////////////////////
+            // Save chosen edge
+            //////////////////////////////////////////////////
+            steps.push_back(
+                vector<int>{
+                    u, v, w, cost
+                }
+            );
+
+            //////////////////////////////////////////////////
+            // MST complete
+            //////////////////////////////////////////////////
+            if (edgesUsed == n - 1)
+                break;
+        }
+    }
+
+    //////////////////////////////////////////////////
+    // Safety fallback
+    //////////////////////////////////////////////////
+    if (steps.empty()) {
+        steps.push_back(
+            vector<int>{0,0,0,0}
+        );
+    }
+
+    return steps;
+}
