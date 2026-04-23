@@ -572,7 +572,7 @@ export default function App() {
 
     try {
       setLoading(true);
-      fetch("https://algovision-backend.onrender.com/run", {
+      const res = await fetch("https://algovision-backend.onrender.com/run", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -605,7 +605,7 @@ export default function App() {
       setStepIndex(0);
       setPlaying(true);
     } catch (err) {
-      setError("Could not connect to backend. Is the server running on port 5000?");
+      setError("Could not connect to live backend. Please wait a moment and try again.");
       setResults([]); setBest(null);
     } finally {
       setLoading(false);
