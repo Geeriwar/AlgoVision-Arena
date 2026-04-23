@@ -572,7 +572,7 @@ export default function App() {
 
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:5000/run", {
+      fetch("https://algovision-backend.onrender.com/run", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
